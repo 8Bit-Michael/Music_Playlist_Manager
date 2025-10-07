@@ -41,10 +41,12 @@ class Playlist:
         pass
 
     def play_next(self):
-        pass
+        self.current = self.current.next # When is next or prev defined as being the next or previous node? 
+        # You define it when setting up the node by making it so that when you 
+        # see 'prev' you go back and when you see 'next' you go forward.
 
     def play_previous(self):
-        pass
+        self.current = self.current.prev
 
     def display_playlist(self):
         playlist = []
@@ -58,4 +60,5 @@ class Playlist:
 
 
     def show_current_song(self):
-        pass
+        while self.current:
+            return self.current.playlist_display() # Return the current song's title and artist.
