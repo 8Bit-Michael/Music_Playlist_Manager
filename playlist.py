@@ -38,7 +38,25 @@ class Playlist:
             return f"Added {self.current.playlist_display()} as the first song in the playlist."
     
     def remove_song(self, title):
-        pass
+        while self.current:
+            if self.current.title == title:
+                if self.current.next == self.current: # If there is only one song in the playlist.
+                    self.current = None # Erase it in a simple manner.
+                    self.start = None
+                    return f"Removed {title} from the playlist. The playlist is now empty."
+                else: # If there is more than one song in the playlist.
+                    self.current.prev.next = self.current.next # The two shift together and essentially squeeze out that other node.
+                    self.current.next.prev = self.current.prev # Same thing here.
+                    if self.current == self.start: # If the current song was the start song, move the start to the next as well.
+                        self.start = self.current.next
+                        self.current = self.current.next # Now your focusing on the new head, not the old one.
+                    else:
+                        self.current = self.current.next # Just move current to the next song.
+                    return f"Removed {title} from the playlist." # Either way, you return this message.
+            self.current = self.current.next # Move to the next song if there is no match.
+            if self.current == self.start: # If you have looped back to the start, break.
+                break
+        return f"Song titled {title} not found in the playlist." # If you exit the loop without finding it, return this message.
 
     def play_next(self):
         self.current = self.current.next # When is next or prev defined as being the next or previous node? 
@@ -50,6 +68,7 @@ class Playlist:
 
     def display_playlist(self):
         playlist = []
+        self.current = self.start # Start at the beginning of the playlist.
 
         while self.current:
             print(self.current.playlist_display()) # Print for each node it's title and artist.
