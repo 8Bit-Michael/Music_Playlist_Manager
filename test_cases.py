@@ -41,8 +41,17 @@ def next_test():
         playlist.play_next() # It's not returning None, but it's not going to print it
         print(playlist.show_current_song()) # because the value has only been returned.
 
+def remove_test():
+    print('--- Remove Test ---')
+    if playlist.is_empty():
+        print("Playlist is empty.")
+    else:
+        print(playlist.remove_song("Standing In The Middle Of The Field"))
+        playlist.display_playlist() # Where is All The Right Moves now?
+
 test_function()
 test_node()
 test_add_song()
 next_test()
 prev_test()
+remove_test()
