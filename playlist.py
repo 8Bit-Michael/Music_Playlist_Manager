@@ -59,7 +59,12 @@ class Playlist:
         return f"Song titled {title} not found in the playlist." # If you exit the loop without finding it, return this message.
 
     def play_next(self):
-        self.current = self.current.next # When is next or prev defined as being the next or previous node? 
+        if self.is_empty():
+            return ""
+        else:
+            self.current = self.current.next 
+            print("Current node", self.current.playlist_display())
+        # When is next or prev defined as being the next or previous node? 
         # You define it when setting up the node by making it so that when you 
         # see 'prev' you go back and when you see 'next' you go forward.
 
