@@ -23,21 +23,23 @@ class Playlist:
             return False
 
     def add_song(self, title, artist):
-        if self.is_empty(): # If empty, add first song.
-            self.current = SongNode(title, artist) # Make new song the current song.
-            self.current.next = self.current # Point next and prev to itself.
-            self.current.prev = self.current
-            self.start = self.current # Set start to the first song.
-            return f"Added {self.current.playlist_display()} as the first song in the playlist."
-        else: # If not empty, add new song before current.
-            new_song = SongNode(title, artist) # Create new song node.
-            new_song.prev = self.current.prev # Make the prev node point to what current's prev was.
-            new_song.next = self.current # Make new song's next point to current.
-            self.current.prev.next = new_song # If the current node shifts forward and finds no node, 
-            self.current.prev = new_song # then it will start at the beginning of the list.
-            return f"Added {self.current.playlist_display()} as the first song in the playlist."
+        new_song = SongNode(title, artist)
+
+        if self.is_empty():
+            new_song.next = new_song
+            new_song.prev = new_song
+            self.current = new_song
+            self.start = new_song
+            return f"Added {new_song.playlist_display()} as the first song in the playlist."
+        else:
+            # Insert the new song before the current one
+            new_song.prev = self.current.prev
+            new_song.next = self.current
+            self.current.prev.next = new_song
+            self.current.prev = new_song
+            return f"Added {new_song.playlist_display()} to the playlist."
     
-    def remove_song(self, title):
+    def remove_song(self, title, artist):
         while self.current:
             if self.current.title == title:
                 if self.current.next == self.current: # If there is only one song in the playlist.
@@ -60,17 +62,19 @@ class Playlist:
 
     def play_next(self):
         if self.is_empty():
-            return ""
-        else:
-            self.current = self.current.next 
-            print("Current node", self.current.playlist_display())
+            return "Playlist is empty."
+        self.current = self.current.next 
+        return "Now playing: {self.current.playlist_display()}"
         # When is next or prev defined as being the next or previous node? 
         # You define it when setting up the node by making it so that when you 
         # see 'prev' you go back and when you see 'next' you go forward.
 
     def play_previous(self):
+        if self.is_empty():
+            return "Playlist is empty."
         self.current = self.current.prev
-
+        return "Now playing: {self.current.playlist_display()}"
+    
     def display_playlist(self):
         playlist = []
         self.current = self.start # Start at the beginning of the playlist.
