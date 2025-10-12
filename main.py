@@ -37,7 +37,7 @@ while __name__ == "__main__":
             print(result)
 
         elif command == "show_playlist":
-            playlist.show_playlist()
+            playlist.display_playlist()
 
         elif command == "exit":
             print("Exiting playlist manager.")
